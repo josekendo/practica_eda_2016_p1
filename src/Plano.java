@@ -33,6 +33,7 @@ public class Plano
 		}
 		
 		pl = new Casilla[ip][jp];
+		this.dimension = new Coordenadas(ip,jp);
 	}
 	
 	public boolean setCasilla(Casilla x)
@@ -88,8 +89,125 @@ public class Plano
 						}
 					}
 				}
+				
 				//tenemos que redimensionar si las columnas son mayores o si las filas lo son.
+				if(numerodecolumnasmapa != this.dimension.getFila() || numerodefilasmapa != dimension.getColumna())
+				{
+					boolean redimensionarx = false;
+					boolean redimensionary = false;
+					
+					//redimensionamos en el caso de que sea mayor
+					if(numerodecolumnasmapa > this.dimension.getColumna())
+					{
+						 redimensionary = true;
+					}
+					
+					//redimensionamos en el caso de que sea mayor
+					if(numerodefilasmapa > dimension.getFila())
+					{
+						redimensionarx = true;
+					}
+					
+					//el metodo redimensionar se encarga de redimensionar la matrix dejando todos los valores existentes iguales
+					if(redimensionarx && redimensionary)
+					{
+						redimensionar(numerodefilasmapa,numerodecolumnasmapa);
+					}
+					else if(redimensionarx)
+					{
+						redimensionar(numerodefilasmapa,this.dimension.getColumna()+1);
+					}
+					else if(redimensionary)
+					{
+						redimensionar(this.dimension.getFila()+1,numerodecolumnasmapa);
+					}
+				}
 			}
+			//aqui ya solo nos faltaria meter los datos en la matrix
+			boolean dondeterminamapa=true;
+			int numerodelecturasiguiente=-1;
+			for(int k=1; k < planoleido.length;k++)
+			{
+				if(planoleido[k].toString().charAt(0) != '<' && dondeterminamapa)
+				{
+					for(int j=0;j < this.pl[k-1].length;j++)
+					{
+						if(j < (planoleido[k].toString().length()))
+						{
+							if(pl[k-1][j] == null || pl[k-1][j].getTipo() == 'l')
+							{
+								if(planoleido[k].toString().charAt(j) == 'l' || planoleido[k].toString().charAt(j) == 'o')
+								{
+									this.pl[k-1][j] = new Casilla(planoleido[k].toString().charAt(j));
+								}
+								else
+								{
+									this.pl[k-1][j] = new Casilla('l');
+								}
+							}
+						}
+						else
+						{
+							if(pl[k-1][j] == null || pl[k-1][j].getTipo() == 'l')
+							{
+								this.pl[k-1][j] = new Casilla('l');
+							}
+						}
+					}
+				}
+				else
+				{
+					dondeterminamapa = false;
+					numerodelecturasiguiente= k;
+				}
+			}
+			//ahora si hay mas datos los vamos creando
+			if(numerodelecturasiguiente != -1)
+			{
+				for(int l=numerodelecturasiguiente; l < planoleido.length;l++)
+				{	
+					if(planoleido[l].compareToIgnoreCase("<DESTINO>") == 0)
+					{
+						//dos lineas
+						if((l+1) < planoleido.length && (l+2) < planoleido.length && planoleido[l+1].matches("^[a-zA-Z]+$") && planoleido[l+2].matches("^[0-9]+"+" "+"[0-9]+$"))
+						{
+							if(Integer.parseInt(planoleido[l+2].substring(0,0)) < dimension.getFila() && Integer.parseInt(planoleido[l+2].substring(2,2)) < dimension.getColumna() && (pl[Integer.parseInt(planoleido[l+2].substring(0,0))][Integer.parseInt(planoleido[l+2].substring(2,2))].getTipo() == 'l' || pl[Integer.parseInt(planoleido[l+2].substring(0,0))][Integer.parseInt(planoleido[l+2].substring(2,2))] == null))
+							{
+								Casilla nueva = new Casilla('d');
+								nueva.setNombre(planoleido[l+1]);
+								nueva.setCoordenadas(planoleido[l+2].charAt(0),planoleido[l+2].charAt(2),this);
+							}
+						}		
+					}
+					else if(planoleido[l].compareToIgnoreCase("<PUERTA>") == 0)
+					{
+						//tres lineas
+						if((l+1) < planoleido.length && (l+2) < planoleido.length && (l+3) < planoleido.length && planoleido[l+1].matches("^[0-9]+$") && planoleido[l+2].matches("^[0-9]+"+" "+"[0-9]+$") && planoleido[l+3].matches("^[a-zA-Z]$"))
+						{
+							if(Integer.parseInt(planoleido[l+2].substring(0,0)) < dimension.getFila() && Integer.parseInt(planoleido[l+2].substring(2,2)) < dimension.getColumna() && (pl[Integer.parseInt(planoleido[l+2].substring(0,0))][Integer.parseInt(planoleido[l+2].substring(2,2))].getTipo() == 'l' || pl[Integer.parseInt(planoleido[l+2].substring(0,0))][Integer.parseInt(planoleido[l+2].substring(2,2))] == null))
+							{
+								Casilla nueva = new Casilla('d');
+								nueva.setPuerta(Integer.parseInt(planoleido[l+1]),planoleido[l+3].charAt(0));
+								nueva.setCoordenadas(planoleido[l+2].charAt(0),planoleido[l+2].charAt(2),this);
+							}
+						}		
+					}
+					else if(planoleido[l].compareToIgnoreCase("<COMIENZO>") == 0)
+					{
+						//dos lineas
+						if((l+1) < planoleido.length && (l+2) < planoleido.length && planoleido[l+1].matches("^[a-zA-Z]+$") && planoleido[l+2].matches("^[0-9]+"+" "+"[0-9]+$"))
+						{
+							
+							if(Integer.parseInt(planoleido[l+2].substring(0,0)) < dimension.getFila() && Integer.parseInt(planoleido[l+2].substring(2,2)) < dimension.getColumna() && (pl[Integer.parseInt(planoleido[l+2].substring(0,0))][Integer.parseInt(planoleido[l+2].substring(2,2))].getTipo() == 'l' || pl[Integer.parseInt(planoleido[l+2].substring(0,0))][Integer.parseInt(planoleido[l+2].substring(2,2))] == null))
+							{
+								Casilla nueva = new Casilla('c');
+								nueva.setNombre(planoleido[l+1]);
+								nueva.setCoordenadas(planoleido[l+2].charAt(0),planoleido[l+2].charAt(2),this);
+							}
+						}								
+					}
+				}
+			}	
 		}
 	}
 	
@@ -107,6 +225,7 @@ public class Plano
 		if(x != null && x.getFila() >= 0 && x.getColumna() >= 0 && x.getFila() < this.pl.length && x.getColumna() < this.pl[0].length && this.pl[x.getFila()][x.getColumna()] != null)
 		{
 			//esto hay que mirar que valores cambian
+			
 		}
 		return null;
 	}
@@ -200,5 +319,38 @@ public class Plano
 			System.out.println(ex);
 		}
 		return diccionario;
+	}
+	
+	//este metodo se encarga de redimensionar la matrix sin perder datos utilizando un doble for para  recorrer el viejo y el nuevo
+	public void redimensionar(int x, int y)
+	{
+		int ax=0,by=0;
+		if(x != -1 && y != -1)
+		{
+			ax=x;
+			by=y;
+		}
+		else if(x != -1)
+		{
+			ax=x;
+			by=this.pl[0].length;
+		}
+		else if(y != -1)
+		{
+			by=y;
+			ax=this.pl.length;	
+		}
+		
+		Casilla[][] nuevamatrix = new Casilla[ax][by];
+		
+		for(int h=0;h < this.pl.length;h++)
+		{
+			for(int i=0;i < this.pl[h].length;i++)
+			{
+				nuevamatrix[h][i] = pl[h][i]; 
+			}	
+		}
+		
+		pl = nuevamatrix;
 	}
 }
