@@ -1,3 +1,4 @@
+//DNI 48767995z ANTON COY, JOSE VICENTE
 
 public class Casilla {
 
@@ -242,12 +243,14 @@ public class Casilla {
 	//comprobamos de que no sea nula la informacion y de que sean del mismo tipo, luego comparamos la informacion que devuelve en el caso de que sea la misma se devuelve true si no false
 	public boolean equals(Casilla c)
 	{
-		
-		if((!(c.devolverInfo() == null || this.devolverInfo() == null)) && c.tipo == this.tipo)
+		if(this.coordenada_s.getColumna() == c.coordenada_s.getColumna() && this.coordenada_s.getFila() == c.coordenada_s.getFila())
 		{
-			if(c.devolverInfo().compareToIgnoreCase(this.devolverInfo()) == 0)
+			if((!(c.devolverInfo() == null || this.devolverInfo() == null)) && c.tipo == this.tipo)
 			{
-				return true;
+				if(c.devolverInfo().compareToIgnoreCase(this.devolverInfo()) == 0)
+				{
+					return true;
+				}
 			}
 		}
 		return false;

@@ -1,3 +1,6 @@
+import java.util.Vector;
+
+//DNI 48767995z ANTON COY, JOSE VICENTE
 
 public class Mediaplan {
 
@@ -11,9 +14,6 @@ public class Mediaplan {
 			{
 				Plano planonuevo = new Plano(Integer.parseInt(args[1]),Integer.parseInt(args[2]));
 				planonuevo.leePlano(args[0]);
-				planonuevo.muestraPlano();
-				Coordenadas coordenaprueba= new Coordenadas(3,8);
-				
 				//------------------------------ Ahora segun el metodo a o b
 				if(args[3].compareToIgnoreCase("a") == 0)
 				{
@@ -29,12 +29,22 @@ public class Mediaplan {
 	
 	public static void metodoA(Plano p)
 	{
-		
+		//llamamos a buscar destinos
+		//llamamos a calcular distancias enviando los destinos
+		Vector<Casilla> destinos;
+		Vector<String> resultados;
+		Vector<String> resultadosdos;
+		destinos = p.buscardestinos();
+		p.comparardestinos(destinos);
+		p.compararplano(destinos, 1);
 	}
 	
 	public static void metodoB(Plano p)
 	{
-		
+		Vector<Casilla> destinos;
+		Vector<String> resultadosdos;
+		destinos = p.buscardestinos();
+		p.compararplano(destinos, 2);
 	}
 
 }

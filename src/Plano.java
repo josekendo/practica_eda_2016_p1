@@ -1,6 +1,9 @@
+//DNI 48767995z ANTON COY, JOSE VICENTE
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Vector;
 
 
 public class Plano 
@@ -483,4 +486,39 @@ public class Plano
 			}
 		}
 	}
+	
+	//funcion que busca y devuelve las casillas que sean destinos, retorna null si es imposible encontrar un destino
+	public Vector<Casilla> buscardestinos()
+	{
+		Vector<Casilla> destinos = new Vector<Casilla>(1,1);
+		for(int g=0;g < this.dimension.getFila();g++)
+		{
+			for(int f=0;f < this.dimension.getColumna();f++)
+			{
+				if(pl[g][f].esDestino() && pl[g][f].getNombre().matches("^[a-zA-Z]+$"))
+				{
+					destinos.add(pl[g][f]);
+				}
+			}
+		}
+		
+		if(destinos.size() >= 1)
+		{
+			return destinos;
+		}
+		return null;
+	}
+	
+	//funcion que busca los destinos mas cercanos el uno del otro y devuelve el resultado en formato de string[]
+	public void comparardestinos(Vector<Casilla> c)
+	{
+		
+	}
+	
+	//funcion que calcula todos las distancias de todas las casillas a los destinos, modo 2 te saca todos los costes, modo 1 solo los mas cercanos
+	public void compararplano(Vector<Casilla> c,int modo)
+	{
+
+	}
+	
 }
