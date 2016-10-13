@@ -1,0 +1,36 @@
+<MAPA>
+loolllllo
+lllllllll
+oololloll
+llllollll
+llllololo
+llollollo
+lllloolll
+<DESTINO>
+Linz
+0 3
+<DESTINO>
+Graz
+4 5
+<PUERTA>
+1
+1 5
+P
+<PUERTA>
+5
+0 8
+T
+<PUERTA>
+15
+1 8
+<PUERTA>
+1 8
+C
+<DESTINO>
+2 3
+<DESTINO>
+Hallstatt
+5 6
+<COMIENZO>
+Melk
+3 1
